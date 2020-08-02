@@ -1,0 +1,6 @@
+name: VanillaPlus
+version: ${project.version}
+main: xyz.norakthes.vanillaplus.VanillaPlus
+api-version: 1.13
+commands:
+  compound:
