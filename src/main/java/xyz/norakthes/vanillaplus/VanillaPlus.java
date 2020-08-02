@@ -20,7 +20,7 @@ public final class VanillaPlus extends JavaPlugin {
 
     static {
         emeraldSword.getItemMeta().setDisplayName("Emerald Sword");
-        emeraldSword.getItemMeta().addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, new AttributeModifier("generic.attackSpeed",20, AttributeModifier.Operation.ADD_NUMBER));
+//        emeraldSword.getItemMeta().addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, new AttributeModifier("generic.attackSpeed",20, AttributeModifier.Operation.ADD_NUMBER));
     }
 
     static ShapedRecipe emeraldSwordRecipe = new ShapedRecipe(NamespacedKey.minecraft("vanillaplus"), emeraldSword).shape(
@@ -39,6 +39,8 @@ public final class VanillaPlus extends JavaPlugin {
         getServer().addRecipe(emeraldSwordRecipe);
 
         this.getCommand("compound").setExecutor(new compoundDebug());
+        this.getCommand("test").setExecutor(new test());
+        this.getCommand("NBT").setExecutor(new NBT());
 
     }
 
