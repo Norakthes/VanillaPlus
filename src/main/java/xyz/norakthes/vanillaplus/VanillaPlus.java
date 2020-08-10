@@ -24,9 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class VanillaPlus extends JavaPlugin implements Listener {
-//    public static ItemStack setAttackSpeed(ItemStack weapon, float amount) {
-//
-//    }
 
     static ItemStack emeraldSword = new ItemStack(Material.DIAMOND_SWORD, 1);
 
@@ -71,22 +68,30 @@ public final class VanillaPlus extends JavaPlugin implements Listener {
     }
 
     @EventHandler
-    public void onPlayerItemDamage(PlayerItemDamageEvent event){
-        if (event.getItem().getItemMeta().getCustomModelData() == 1 && event.getItem().getType() == Material.DIAMOND_SWORD){
-            ItemMeta itemMeta = event.getItem().getItemMeta();
-            List<String> lore = event.getItem().getLore();
-            Bukkit.broadcastMessage(String.valueOf(lore.get(1)));
-            int durabilityInt;
-//            if (Integer.parseInt(durability)  != -1){
-//                durabilityInt = Integer.parseInt(durability);
-//                durabilityInt--;
-//                lore.add("Durability: " + durabilityInt);
-//            }
-//            itemMeta.setLore(lore);
-//            event.getItem().setItemMeta(itemMeta);
-            event.setCancelled(true);
+    public void onPlayerItemDamage(PlayerItemDamageEvent event) {
+        Material itemMaterial = event.getItem().getType();
+        int customModelData = event.getItem().getItemMeta().getCustomModelData();
 
+        switch (itemMaterial) {
+            case DIAMOND_SWORD:
+                List<String> lore = event.getItem().getLore();
+                assert lore != null;
+                String[] loreArray = new String[lore.size()];
+                lore.toArray(loreArray);
+                switch (customModelData){
+                    case 1:
+                        int durability = Integer.parseInt(loreArray[1]);
+                        ItemMeta swordMeta = event.getItem().getItemMeta();
+                        ItemStack itemStack = event.getItem();
+                        ArrayList<String> swordLore = new ArrayList<>();
 
+                        swordMeta.setLore(swordLore);
+
+                        event.setCancelled(true);
+                        itemStack.setItemMeta(swordMeta);
+                        break;
+                }
+                break;
         }
     }
 }
