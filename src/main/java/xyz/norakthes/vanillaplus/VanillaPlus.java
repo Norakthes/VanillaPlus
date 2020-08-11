@@ -44,7 +44,7 @@ public final class VanillaPlus extends JavaPlugin implements Listener {
         emeraldSword.setItemMeta(emeraldSwordMeta);
     }
 
-    static ShapedRecipe emeraldSwordRecipe = new ShapedRecipe(NamespacedKey.minecraft("vanillaplus"), emeraldSword).shape(
+    static ShapedRecipe emeraldSwordRecipe = new ShapedRecipe(NamespacedKey.minecraft("½vanillaplus"), emeraldSword).shape(
             " * ",
             " * ",
             " - ")
@@ -70,6 +70,8 @@ public final class VanillaPlus extends JavaPlugin implements Listener {
     @EventHandler
     public void onPlayerItemDamage(PlayerItemDamageEvent event) {
         Material itemMaterial = event.getItem().getType();
+        ItemMeta swordMeta = event.getItem().getItemMeta();
+        ItemStack itemStack = event.getItem();
         int customModelData = event.getItem().getItemMeta().getCustomModelData();
 
         switch (itemMaterial) {
@@ -80,13 +82,13 @@ public final class VanillaPlus extends JavaPlugin implements Listener {
                 lore.toArray(loreArray);
                 switch (customModelData){
                     case 1:
-                        int durability = Integer.parseInt(loreArray[1]);
-                        ItemMeta swordMeta = event.getItem().getItemMeta();
-                        ItemStack itemStack = event.getItem();
+                        int itemMeta = Integer.parseInt(loreArray[1]);
                         ArrayList<String> swordLore = new ArrayList<>();
+                        itemMeta--;
+
+
 
                         swordMeta.setLore(swordLore);
-
                         event.setCancelled(true);
                         itemStack.setItemMeta(swordMeta);
                         break;
