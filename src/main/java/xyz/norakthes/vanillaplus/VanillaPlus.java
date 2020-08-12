@@ -73,8 +73,8 @@ public final class VanillaPlus extends JavaPlugin implements Listener {
             String[] loreArray = new String[lore.size()];
             lore.toArray(loreArray);
             int damage = Integer.parseInt(loreArray[1]);
-
-            loreArray[1] = String.valueOf((damage = damage--));
+            damage--;
+            loreArray[1] = String.valueOf(damage);
 
             lore = Arrays.asList(loreArray);
                 swordMeta.setLore(lore);
