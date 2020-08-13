@@ -1,6 +1,7 @@
 package xyz.norakthes.vanillaplus;
 
 import de.tr7zw.changeme.nbtapi.NBTItem;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.event.EventHandler;
@@ -19,14 +20,14 @@ public final class VanillaPlus extends JavaPlugin implements Listener {
 
     static ItemStack emeraldSword = new ItemStack(Material.DIAMOND_SWORD, 1);
 
-    static int emeraldSwordDurability = 941;
+    static int emeraldSwordDurability = 941; //TODO make durability configurable
 
     static {
         NBTItem nbti = new NBTItem(emeraldSword);
         ItemMeta emeraldSwordMeta = emeraldSword.getItemMeta();
         ArrayList<String> lore = new ArrayList<>();
 
-        lore.add("Durability: " + emeraldSwordDurability);
+        lore.add("§fDurability: " + emeraldSwordDurability);
 
         emeraldSwordMeta.setDisplayName("§fEmerald Sword");
         emeraldSwordMeta.setCustomModelData(1);
@@ -36,7 +37,7 @@ public final class VanillaPlus extends JavaPlugin implements Listener {
         emeraldSword.setItemMeta(emeraldSwordMeta);
     }
 
-    static ShapedRecipe emeraldSwordRecipe = new ShapedRecipe(NamespacedKey.minecraft("½vanillaplus"), emeraldSword).shape(
+    static ShapedRecipe emeraldSwordRecipe = new ShapedRecipe(NamespacedKey.minecraft("vanillaplus"), emeraldSword).shape(
             " * ",
             " * ",
             " - ")
@@ -70,16 +71,17 @@ public final class VanillaPlus extends JavaPlugin implements Listener {
         if (itemMaterial == Material.DIAMOND_SWORD && customModelData == 1){
             List<String> lore = event.getItem().getLore();
             assert lore != null;
-            String[] loreArray = new String[lore.size()];
-            lore.toArray(loreArray);
-            int damage = Integer.parseInt(loreArray[1]);
-            damage--;
-            loreArray[1] = String.valueOf(damage);
 
-            lore = Arrays.asList(loreArray);
-                swordMeta.setLore(lore);
-                itemStack.setItemMeta(swordMeta);
-            event.setCancelled(true);
+
+            Bukkit.broadcastMessage(lore + " | " + lore.size());
+//            damage--;
+//
+//            loreArray[1] = String.valueOf(damage);
+//
+//            lore = Arrays.asList(loreArray);
+//                swordMeta.setLore(lore);
+//                itemStack.setItemMeta(swordMeta);
+//            event.setCancelled(true);
         }
             //Future implementation
 //        switch (itemMaterial) {
