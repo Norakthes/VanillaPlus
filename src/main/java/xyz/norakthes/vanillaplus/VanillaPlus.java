@@ -27,7 +27,7 @@ public final class VanillaPlus extends JavaPlugin implements Listener {
         ItemMeta emeraldSwordMeta = emeraldSword.getItemMeta();
         ArrayList<String> lore = new ArrayList<>();
 
-        lore.add("§fDurability: " + emeraldSwordDurability);
+    lore.add("§fDurability: " + "§" + emeraldSwordDurability);
 
         emeraldSwordMeta.setDisplayName("§fEmerald Sword");
         emeraldSwordMeta.setCustomModelData(1);
