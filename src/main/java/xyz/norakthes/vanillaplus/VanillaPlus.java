@@ -2,8 +2,10 @@ package xyz.norakthes.vanillaplus;
 
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemDamageEvent;
@@ -22,18 +24,18 @@ public final class VanillaPlus extends JavaPlugin implements Listener {
 
     static int emeraldSwordDurability = 941; //TODO make durability configurable
 
+    //  Emerald sword
     static {
         NBTItem nbti = new NBTItem(emeraldSword);
         ItemMeta emeraldSwordMeta = emeraldSword.getItemMeta();
         ArrayList<String> lore = new ArrayList<>();
 
-    lore.add("§fDurability: " + "§" + emeraldSwordDurability);
+        lore.add(ChatColor.WHITE + "§fDurability: " +/* "§f" +*/ emeraldSwordDurability);
 
         emeraldSwordMeta.setDisplayName("§fEmerald Sword");
         emeraldSwordMeta.setCustomModelData(1);
 
         emeraldSwordMeta.setLore(lore);
-        emeraldSword = nbti.getItem();
         emeraldSword.setItemMeta(emeraldSwordMeta);
     }
 
@@ -41,7 +43,8 @@ public final class VanillaPlus extends JavaPlugin implements Listener {
             " * ",
             " * ",
             " - ")
-            .setIngredient('*', Material.EMERALD).setIngredient('-',Material.STICK);
+            .setIngredient('*', Material.EMERALD)
+            .setIngredient('-',Material.STICK);
 
 
     @Override
@@ -63,25 +66,25 @@ public final class VanillaPlus extends JavaPlugin implements Listener {
     @EventHandler
     public void onPlayerItemDamage(PlayerItemDamageEvent event) {
         Material itemMaterial = event.getItem().getType();
-        ItemMeta swordMeta = event.getItem().getItemMeta();
         ItemStack itemStack = event.getItem();
+        ItemMeta swordMeta = event.getItem().getItemMeta();
         int customModelData = event.getItem().getItemMeta().getCustomModelData();
-
+        NBTItem nbti = new NBTItem(event.getItem());
 
         if (itemMaterial == Material.DIAMOND_SWORD && customModelData == 1){
-            List<String> lore = event.getItem().getLore();
-            assert lore != null;
+            Integer swordDamage = nbti.getInteger("itemDamage");
+            Player player = event.getPlayer();
 
+            swordDamage--;
+            nbti.setInteger("itemDamage",swordDamage);
 
-            Bukkit.broadcastMessage(lore + " | " + lore.size());
-//            damage--;
-//
-//            loreArray[1] = String.valueOf(damage);
-//
-//            lore = Arrays.asList(loreArray);
-//                swordMeta.setLore(lore);
-//                itemStack.setItemMeta(swordMeta);
-//            event.setCancelled(true);
+            itemStack = nbti.getItem();
+            player.getInventory().setItemInMainHand(itemStack);
+
+            if (swordDamage == 0){
+                player.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
+            }
+            event.setCancelled(true);
         }
             //Future implementation
 //        switch (itemMaterial) {
