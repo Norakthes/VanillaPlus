@@ -1,10 +1,10 @@
 package xyz.norakthes.vanillaplus;
 
 import de.tr7zw.changeme.nbtapi.NBTItem;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,7 +15,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public final class VanillaPlus extends JavaPlugin implements Listener {
@@ -29,8 +28,7 @@ public final class VanillaPlus extends JavaPlugin implements Listener {
         NBTItem nbti = new NBTItem(emeraldSword);
         ItemMeta emeraldSwordMeta = emeraldSword.getItemMeta();
         ArrayList<String> lore = new ArrayList<>();
-
-        lore.add(ChatColor.WHITE + "§fDurability: " +/* "§f" +*/ emeraldSwordDurability);
+        lore.add(ChatColor.DARK_GRAY + "§fDurability: " + emeraldSwordDurability);
 
         emeraldSwordMeta.setDisplayName("§fEmerald Sword");
         emeraldSwordMeta.setCustomModelData(1);
@@ -69,21 +67,12 @@ public final class VanillaPlus extends JavaPlugin implements Listener {
         ItemStack itemStack = event.getItem();
         ItemMeta swordMeta = event.getItem().getItemMeta();
         int customModelData = event.getItem().getItemMeta().getCustomModelData();
-        NBTItem nbti = new NBTItem(event.getItem());
-
+        List<String> lore = event.getItem().getLore();
         if (itemMaterial == Material.DIAMOND_SWORD && customModelData == 1){
-            Integer swordDamage = nbti.getInteger("itemDamage");
             Player player = event.getPlayer();
 
-            swordDamage--;
-            nbti.setInteger("itemDamage",swordDamage);
 
-            itemStack = nbti.getItem();
             player.getInventory().setItemInMainHand(itemStack);
-
-            if (swordDamage == 0){
-                player.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
-            }
             event.setCancelled(true);
         }
             //Future implementation
