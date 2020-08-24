@@ -128,30 +128,29 @@ public final class VanillaPlus extends JavaPlugin implements Listener {
 //        }
         switch (itemMaterial) {
             case DIAMOND_SWORD:
-                switch (customModelData) {
-                    case 1:
-
-
-                        if (hasEnchantment){
-                            double randomNum = Math.random()*100;
-
-                            if (randomNum > percentage){
-                                currentDurability--;
-                            }
-                        }
-                        else {currentDurability--;}
-
-                        itemMeta.setLore(Collections.singletonList("§fDurability: " + currentDurability + " / " + emeraldDurability));
-                        itemStack.setItemMeta(itemMeta);
-                        player.getInventory().setItemInMainHand(itemStack);
-                        event.setCancelled(true);
-                        break;
-                }
+                emeraldTools(event, itemStack, itemMeta, currentDurability, player, hasEnchantment, percentage, customModelData);
             case DIAMOND_PICKAXE:
-                switch (customModelData) {
-                    case 1:
+                emeraldTools(event, itemStack, itemMeta, currentDurability, player, hasEnchantment, percentage, customModelData);
+        }
+    }
 
+    private void emeraldTools(PlayerItemDamageEvent event, ItemStack itemStack, ItemMeta itemMeta, int currentDurability, Player player, boolean hasEnchantment, float percentage, int customModelData) {
+        switch (customModelData) {
+            case 1:
+                if (hasEnchantment){
+                    double randomNum = Math.random()*100;
+
+                    if (randomNum > percentage){
+                        currentDurability--;
+                    }
                 }
+                else {currentDurability--;}
+
+                itemMeta.setLore(Collections.singletonList("§fDurability: " + currentDurability + " / " + emeraldDurability));
+                itemStack.setItemMeta(itemMeta);
+                player.getInventory().setItemInMainHand(itemStack);
+                event.setCancelled(true);
+                break;
         }
     }
 }
