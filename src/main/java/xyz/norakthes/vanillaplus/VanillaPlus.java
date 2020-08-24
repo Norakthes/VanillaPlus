@@ -49,15 +49,15 @@ public final class VanillaPlus extends JavaPlugin implements Listener {
         emeraldPickaxeMeta.setLore(lore);
         emeraldPickaxe.setItemMeta(emeraldPickaxeMeta);
     }
-
-    static ShapedRecipe emeraldSwordRecipe = new ShapedRecipe(NamespacedKey.minecraft("vanillaplus"), emeraldSword).shape(
+    // TODO make custom namespacedKey
+    static ShapedRecipe emeraldSwordRecipe = new ShapedRecipe(NamespacedKey.minecraft("emerald_sword"), emeraldSword).shape(
             " * ",
             " * ",
             " - ")
             .setIngredient('*', Material.EMERALD)
             .setIngredient('-', Material.STICK);
 
-    static ShapedRecipe emeraldPickaxeRecipe = new ShapedRecipe(NamespacedKey.minecraft("vanillaplus"), emeraldPickaxe).shape(
+    static ShapedRecipe emeraldPickaxeRecipe = new ShapedRecipe(NamespacedKey.minecraft("emerald_pickaxe"), emeraldPickaxe).shape(
             "***",
             " - ",
             " - ")
