@@ -128,29 +128,53 @@ public final class VanillaPlus extends JavaPlugin implements Listener {
 //        }
         switch (itemMaterial) {
             case DIAMOND_SWORD:
-                emeraldTools(event, itemStack, itemMeta, currentDurability, player, hasEnchantment, percentage, customModelData);
-            case DIAMOND_PICKAXE:
-                emeraldTools(event, itemStack, itemMeta, currentDurability, player, hasEnchantment, percentage, customModelData);
-        }
-    }
+                switch (customModelData) {
+                    case 1:
+                        if (hasEnchantment){
+                            double randomNum = Math.random()*100;
 
-    private void emeraldTools(PlayerItemDamageEvent event, ItemStack itemStack, ItemMeta itemMeta, int currentDurability, Player player, boolean hasEnchantment, float percentage, int customModelData) {
-        switch (customModelData) {
-            case 1:
-                if (hasEnchantment){
-                    double randomNum = Math.random()*100;
+                            if (randomNum > percentage){
+                                currentDurability--;
+                            }
+                        }
+                        else {currentDurability--;}
 
-                    if (randomNum > percentage){
-                        currentDurability--;
-                    }
+                        if (currentDurability < 1) {
+                            player.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
+                        }
+
+                        else {
+                            itemMeta.setLore(Collections.singletonList("§fDurability: " + currentDurability + " / " + emeraldDurability));
+                            itemStack.setItemMeta(itemMeta);
+                            player.getInventory().setItemInMainHand(itemStack);
+                            event.setCancelled(true);
+                            break;
+                        }
                 }
-                else {currentDurability--;}
+            case DIAMOND_PICKAXE:
+                switch (customModelData) {
+                    case 1:
+                        if (hasEnchantment){
+                            double randomNum = Math.random()*100;
 
-                itemMeta.setLore(Collections.singletonList("§fDurability: " + currentDurability + " / " + emeraldDurability));
-                itemStack.setItemMeta(itemMeta);
-                player.getInventory().setItemInMainHand(itemStack);
-                event.setCancelled(true);
-                break;
+                            if (randomNum > percentage){
+                                currentDurability--;
+                            }
+                        }
+                        else {currentDurability--;}
+
+                        if (currentDurability < 1) {
+                            player.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
+                        }
+
+                        else {
+                            itemMeta.setLore(Collections.singletonList("§fDurability: " + currentDurability + " / " + emeraldDurability));
+                            itemStack.setItemMeta(itemMeta);
+                            player.getInventory().setItemInMainHand(itemStack);
+                            event.setCancelled(true);
+                            break;
+                        }
+                }
         }
     }
 }
