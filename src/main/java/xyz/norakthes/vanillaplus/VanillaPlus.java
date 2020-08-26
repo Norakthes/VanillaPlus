@@ -1,11 +1,15 @@
 package xyz.norakthes.vanillaplus;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerItemDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
@@ -106,7 +110,7 @@ public final class VanillaPlus extends JavaPlugin implements Listener {
 
         if (hasEnchantment){
             durabilityLevel = event.getItem().getEnchantmentLevel(Enchantment.DURABILITY);
-             percentage = 100 / ((float) durabilityLevel + 1);
+            percentage = 100 / ((float) durabilityLevel + 1);
         }
 
         int customModelData = 0;
@@ -114,18 +118,6 @@ public final class VanillaPlus extends JavaPlugin implements Listener {
         if (event.getItem().getItemMeta().hasCustomModelData()){
             customModelData = event.getItem().getItemMeta().getCustomModelData();
         }
-
-//        if (itemMaterial == Material.DIAMOND_SWORD && customModelData == 1 && lore != null){
-//            String[] loreArray = lore.toString().split(" ");
-//            Player player = event.getPlayer();
-//            int currentDurability = Integer.parseInt(loreArray[1]);
-//
-//            currentDurability--;
-//            itemMeta.setLore(Collections.singletonList("§fDurability: " + currentDurability + " / " + emeraldSwordDurability));
-//            itemStack.setItemMeta(itemMeta);
-//            player.getInventory().setItemInMainHand(itemStack);
-//            event.setCancelled(true);
-//        }
         switch (itemMaterial) {
             case DIAMOND_SWORD:
                 switch (customModelData) {
@@ -175,6 +167,18 @@ public final class VanillaPlus extends JavaPlugin implements Listener {
                             break;
                         }
                 }
+        }
+    }
+
+    @EventHandler
+    public void onBlockBreak(BlockBreakEvent event){
+        Player player = event.getPlayer();
+        double randomNum = Math.random()*100;
+        int enchantmentLevel = player.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.DURABILITY);
+        float percentage = 100 / (float)(enchantmentLevel + 1);
+        Bukkit.broadcastMessage(percentage + " | " + enchantmentLevel + " | " + randomNum);
+        if (randomNum > percentage){
+            Bukkit.broadcastMessage(ChatColor.GREEN + "Yes");
         }
     }
 }
