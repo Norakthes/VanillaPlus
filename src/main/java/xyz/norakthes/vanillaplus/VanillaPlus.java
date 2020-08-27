@@ -4,12 +4,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.player.PlayerExpChangeEvent;
 import org.bukkit.event.player.PlayerItemDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
@@ -34,6 +36,7 @@ public final class VanillaPlus extends JavaPlugin implements Listener {
         ArrayList<String> lore = new ArrayList<>();
         lore.add("§fDurability: " + emeraldDurability +" / "+ emeraldDurability);
 
+        emeraldSwordMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier("generic.attackSpeed", 3, AttributeModifier.Operation.ADD_NUMBER));
         emeraldSwordMeta.setDisplayName("§fEmerald Sword");
         emeraldSwordMeta.setCustomModelData(1);
 
@@ -47,6 +50,7 @@ public final class VanillaPlus extends JavaPlugin implements Listener {
         ArrayList<String> lore = new ArrayList<>();
         lore.add("§fDurability: " + emeraldDurability +" / "+ emeraldDurability);
 
+        emeraldPickaxeMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier("generic.attackSpeed", 3, AttributeModifier.Operation.ADD_NUMBER));
         emeraldPickaxeMeta.setDisplayName("§fEmerald Pickaxe");
         emeraldPickaxeMeta.setCustomModelData(1);
 
@@ -171,14 +175,31 @@ public final class VanillaPlus extends JavaPlugin implements Listener {
     }
 
     @EventHandler
+    public void onPlayerExpChange(PlayerExpChangeEvent event){
+        Player player = event.getPlayer();
+        List<String> lore = null;
+        if (player.getInventory().getItemInMainHand().getItemMeta().hasLore()){
+            lore = event.getPlayer().getInventory().getItemInMainHand().getLore();
+        }
+        String[] loreArray;
+        if (!lore.isEmpty()){
+            loreArray = lore.toString().split(" ");
+        }
+        
+    }
+
+    @EventHandler
     public void onBlockBreak(BlockBreakEvent event){
         Player player = event.getPlayer();
         double randomNum = Math.random()*100;
         int enchantmentLevel = player.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.DURABILITY);
         float percentage = 100 / (float)(enchantmentLevel + 1);
-        Bukkit.broadcastMessage(percentage + " | " + enchantmentLevel + " | " + randomNum);
-        if (randomNum > percentage){
-            Bukkit.broadcastMessage(ChatColor.GREEN + "Yes");
+        if (player.getName().equals("Norakthes")){
+
+            Bukkit.broadcastMessage(percentage + " | " + enchantmentLevel + " | " + randomNum);
+            if (randomNum > percentage){
+                Bukkit.broadcastMessage(ChatColor.GREEN + "Yes");
+            }
         }
     }
 }
