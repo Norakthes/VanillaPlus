@@ -1,9 +1,6 @@
 package xyz.norakthes.vanillaplus;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
+import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
@@ -21,14 +18,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 public final class VanillaPlus extends JavaPlugin implements Listener {
 
     static ItemStack emeraldSword = new ItemStack(Material.DIAMOND_SWORD, 1);
     static ItemStack emeraldPickaxe = new ItemStack(Material.DIAMOND_PICKAXE, 1);
 
-    static int emeraldDurability = 941; //TODO make durability configurable
+    static int emeraldDurability = 10; //TODO make durability configurable
 
     // Emerald sword configuration
     static {
@@ -81,8 +77,6 @@ public final class VanillaPlus extends JavaPlugin implements Listener {
         getServer().addRecipe(emeraldSwordRecipe);
         getServer().addRecipe(emeraldPickaxeRecipe);
 
-        Objects.requireNonNull(this.getCommand("NBT")).setExecutor(new NBT());
-
     }
 
     @Override
@@ -124,52 +118,35 @@ public final class VanillaPlus extends JavaPlugin implements Listener {
         }
         switch (itemMaterial) {
             case DIAMOND_SWORD:
-                switch (customModelData) {
-                    case 1:
-                        if (hasEnchantment){
-                            double randomNum = Math.random()*100;
-
-                            if (randomNum > percentage){
-                                currentDurability--;
-                            }
-                        }
-                        else {currentDurability--;}
-
-                        if (currentDurability < 1) {
-                            player.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
-                        }
-
-                        else {
-                            itemMeta.setLore(Collections.singletonList("§fDurability: " + currentDurability + " / " + emeraldDurability));
-                            itemStack.setItemMeta(itemMeta);
-                            player.getInventory().setItemInMainHand(itemStack);
-                            event.setCancelled(true);
-                            break;
-                        }
-                }
+                emeraldDurability(event, itemStack, itemMeta, currentDurability, player, hasEnchantment, percentage, customModelData);
             case DIAMOND_PICKAXE:
-                switch (customModelData) {
-                    case 1:
-                        if (hasEnchantment){
-                            double randomNum = Math.random()*100;
+                emeraldDurability(event, itemStack, itemMeta, currentDurability, player, hasEnchantment, percentage, customModelData);
+        }
+    }
 
-                            if (randomNum > percentage){
-                                currentDurability--;
-                            }
-                        }
-                        else {currentDurability--;}
+    private void emeraldDurability(PlayerItemDamageEvent event, ItemStack itemStack, ItemMeta itemMeta, int currentDurability, Player player, boolean hasEnchantment, float percentage, int customModelData) {
+        switch (customModelData) {
+            case 1:
+                if (hasEnchantment){
+                    double randomNum = Math.random()*100;
 
-                        if (currentDurability < 1) {
-                            player.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
-                        }
+                    if (randomNum > percentage){
+                        currentDurability--;
+                    }
+                }
+                else {currentDurability--;}
 
-                        else {
-                            itemMeta.setLore(Collections.singletonList("§fDurability: " + currentDurability + " / " + emeraldDurability));
-                            itemStack.setItemMeta(itemMeta);
-                            player.getInventory().setItemInMainHand(itemStack);
-                            event.setCancelled(true);
-                            break;
-                        }
+                if (currentDurability < 1) {
+                    player.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
+                    player.playSound(player.getLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
+                }
+
+                else {
+                    itemMeta.setLore(Collections.singletonList("§fDurability: " + currentDurability + " / " + emeraldDurability));
+                    itemStack.setItemMeta(itemMeta);
+                    player.getInventory().setItemInMainHand(itemStack);
+                    event.setCancelled(true);
+                    break;
                 }
         }
     }

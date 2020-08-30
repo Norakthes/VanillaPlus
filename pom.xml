@@ -42,14 +42,6 @@
                         </goals>
                     </execution>
                 </executions>
-                <configuration>
-                    <relocations>
-                        <relocation>
-                            <pattern>de.tr7zw.changeme.nbtapi</pattern>
-                            <shadedPattern>xyz.norakthes.vanillaPlus</shadedPattern>
-                        </relocation>
-                    </relocations>
-                </configuration>
             </plugin>
         </plugins>
         <resources>
@@ -62,7 +54,7 @@
 
     <repositories>
         <repository>
-            <id>papermc-repo</id>
+            <id>papermc</id>
             <url>https://papermc.io/repo/repository/maven-public/</url>
         </repository>
         <repository>
@@ -70,24 +62,24 @@
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
         <!-- CodeMC -->
-        <repository>
-            <id>codemc-repo</id>
-            <url>https://repo.codemc.org/repository/maven-public/</url>
-            <layout>default</layout>
-        </repository>
+<!--        <repository>-->
+<!--            <id>codemc-repo</id>-->
+<!--            <url>https://repo.codemc.org/repository/maven-public/</url>-->
+<!--            <layout>default</layout>-->
+<!--        </repository>-->
     </repositories>
 
     <dependencies>
         <dependency>
             <groupId>com.destroystokyo.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>1.16.1-R0.1-SNAPSHOT</version>
+            <version>1.16.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>de.tr7zw</groupId>
-            <artifactId>item-nbt-api</artifactId>
-            <version>2.4.1</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>de.tr7zw</groupId>-->
+<!--            <artifactId>item-nbt-api</artifactId>-->
+<!--            <version>2.4.1</version>-->
+<!--        </dependency>-->
     </dependencies>
 </project>
