@@ -24,7 +24,7 @@ public final class VanillaPlus extends JavaPlugin implements Listener {
     static ItemStack emeraldSword = new ItemStack(Material.DIAMOND_SWORD, 1);
     static ItemStack emeraldPickaxe = new ItemStack(Material.DIAMOND_PICKAXE, 1);
 
-    static int emeraldDurability = 10; //TODO make durability configurable
+    static int emeraldDurability = 941; //TODO make durability configurable
 
     // Emerald sword configuration
     static {
