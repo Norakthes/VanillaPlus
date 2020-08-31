@@ -1,6 +1,8 @@
 package xyz.norakthes.vanillaplus;
 
-import org.bukkit.*;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
@@ -154,29 +156,12 @@ public final class VanillaPlus extends JavaPlugin implements Listener {
     @EventHandler
     public void onPlayerExpChange(PlayerExpChangeEvent event){
         Player player = event.getPlayer();
-        List<String> lore = null;
-        if (player.getInventory().getItemInMainHand().getItemMeta().hasLore()){
-            lore = event.getPlayer().getInventory().getItemInMainHand().getLore();
-        }
-        String[] loreArray;
-        if (!lore.isEmpty()){
-            loreArray = lore.toString().split(" ");
-        }
-        
+        int experience = event.getAmount();
+        String[] lore = player.getInventory().getItemInMainHand().getLore().toString().split(" ");
     }
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event){
-        Player player = event.getPlayer();
-        double randomNum = Math.random()*100;
-        int enchantmentLevel = player.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.DURABILITY);
-        float percentage = 100 / (float)(enchantmentLevel + 1);
-        if (player.getName().equals("Norakthes")){
-
-            Bukkit.broadcastMessage(percentage + " | " + enchantmentLevel + " | " + randomNum);
-            if (randomNum > percentage){
-                Bukkit.broadcastMessage(ChatColor.GREEN + "Yes");
-            }
-        }
+        //
     }
 }
